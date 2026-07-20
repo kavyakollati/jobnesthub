@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobNestHub - Find Your Dream Job</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f5f7fa;
+        }
+
+        nav{
+            background:#0d6efd;
+            color:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:18px 10%;
+        }
+
+        nav ul{
+            display:flex;
+            list-style:none;
+            gap:20px;
+        }
+
+        nav a{
+            color:white;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        .hero{
+            text-align:center;
+            padding:90px 20px;
+            background:linear-gradient(135deg,#0d6efd,#20c997);
+            color:white;
+        }
+
+        .hero h1{
+            font-size:48px;
+        }
+
+        .hero p{
+            margin-top:15px;
+            font-size:20px;
+        }
+
+        .search{
+            margin-top:30px;
+        }
+
+        input{
+            padding:15px;
+            width:320px;
+            border:none;
+            border-radius:5px;
+        }
+
+        button{
+            padding:15px 25px;
+            border:none;
+            background:#ffc107;
+            cursor:pointer;
+            border-radius:5px;
+            font-weight:bold;
+        }
+
+        .jobs{
+            padding:60px 10%;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            margin-bottom:20px;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+        }
+
+        footer{
+            background:#222;
+            color:white;
+            text-align:center;
+            padding:20px;
+            margin-top:40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+
+<h2>JobNestHub</h2>
+
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">Jobs</a></li>
+<li><a href="#">Remote</a></li>
+<li><a href="#">Government</a></li>
+<li><a href="#">Contact</a></li>
+</ul>
+
+</nav>
+
+<section class="hero">
+
+<h1>Find Your Dream Job</h1>
+
+<p>Search thousands of jobs from top companies.</p>
+
+<div class="search">
+<input type="text" placeholder="Search Job...">
+<button>Search</button>
+</div>
+
+</section>
+
+<section class="jobs">
+
+<h2>Latest Jobs</h2>
+
+<br>
+
+<div class="card">
+<h3>Software Engineer</h3>
+<p>Google • Bengaluru • ₹15-25 LPA</p>
+</div>
+
+<div class="card">
+<h3>Frontend Developer</h3>
+<p>Microsoft • Hyderabad • ₹10-18 LPA</p>
+</div>
+
+<div class="card">
+<h3>Data Analyst</h3>
+<p>Amazon • Chennai • ₹8-15 LPA</p>
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 JobNestHub | All Rights Reserved</p>
+
+</footer>
+
+</body>
+</html>

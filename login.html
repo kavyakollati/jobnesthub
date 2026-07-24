@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - JobNestHub</title>
+
+<link rel="stylesheet" href="css/style.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- ===============================
+     Navigation
+================================ -->
+
+<nav>
+
+    <h2>JobNestHub</h2>
+
+    <a href="index.html">Home</a>
+
+    <a href="jobs.html">Jobs</a>
+
+    <a href="companies.html">Companies</a>
+
+    <a href="about.html">About</a>
+
+    <a href="contact.html">Contact</a>
+
+</nav>
+
+
+<!-- ===============================
+     Login Section
+================================ -->
+
+<section class="jobs">
+
+    <h1>Login to JobNestHub</h1>
+
+    <div class="job-card">
+
+        <form id="loginForm">
+
+            <!-- Email -->
+
+            <label for="loginEmail">
+                Email Address
+            </label>
+
+            <br><br>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter your email"
+                required
+            >
+
+            <br><br>
+
+
+            <!-- Password -->
+
+            <label for="loginPassword">
+                Password
+            </label>
+
+            <br><br>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+                required
+            >
+
+            <br><br>
+
+
+            <!-- Login Button -->
+
+            <button type="submit" id="loginButton">
+                Login
+            </button>
+
+        </form>
+
+
+        <!-- Login Result -->
+
+        <p id="loginResult"></p>
+
+
+        <!-- Register Link -->
+
+        <p>
+            Don't have an account?
+            <a href="register.html">
+                Register here
+            </a>
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ===============================
+     Login JavaScript
+================================ -->
+
+<script>
+
+    // Get Login Form
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+
+    // Get Result Message
+
+    const loginResult =
+        document.getElementById("loginResult");
+
+
+    // Get Login Button
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+
+    // ===============================
+    // Login Form Submit
+    // ===============================
+
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            // Stop page refresh
+
+            event.preventDefault();
+
+
+            // Get Email
+
+            const email =
+                document
+                .getElementById("loginEmail")
+                .value
+                .trim();
+
+
+            // Get Password
+
+            const password =
+                document
+                .getElementById("loginPassword")
+                .value;
+
+
+            // ===============================
+            // Check Required Fields
+            // ===============================
+
+            if (!email || !password) {
+
+                loginResult.textContent =
+                    "Please enter your email and password.";
+
+                return;
+
+            }
+
+
+            // ===============================
+            // Show Login Status
+            // ===============================
+
+            loginResult.textContent =
+                "Logging in...";
+
+            loginButton.disabled = true;
+
+
+            try {
+
+                // ===============================
+                // Send Login Request
+                // ===============================
+
+                const response =
+                    await fetch(
+                        "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/login",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body: JSON.stringify({
+
+                                email: email,
+
+                                password: password
+
+                            })
+
+                        }
+                    );
+
+
+                // ===============================
+                // Convert Response to JSON
+                // ===============================
+
+                const data =
+                    await response.json();
+
+
+                // ===============================
+                // Login Successful
+                // ===============================
+
+                if (response.ok) {
+
+                    console.log(
+                        "Login successful:",
+                        data
+                    );
+
+
+                    // Save User Information
+
+                    localStorage.setItem(
+                        "user",
+                        JSON.stringify(data.user)
+                    );
+
+
+                    // Show Success Message
+
+                    loginResult.textContent =
+                        "Login successful! Redirecting...";
+
+
+                    // Redirect to Jobs Page
+
+                    setTimeout(function() {
+
+                        window.location.href =
+                            "jobs.html";
+
+                    }, 1000);
+
+
+                } else {
+
+                    // ===============================
+                    // Login Failed
+                    // ===============================
+
+                    loginResult.textContent =
+                        data.message ||
+                        "Invalid email or password.";
+
+                    loginButton.disabled = false;
+
+                }
+
+
+            } catch (error) {
+
+                // ===============================
+                // Server Connection Error
+                // ===============================
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+
+                loginResult.textContent =
+                    "Unable to connect to the server. Please make sure your backend server is running.";
+
+                loginButton.disabled = false;
+
+            }
+
+        }
+    );
+
+</script>
+```
+
+</body>
+
+</html>

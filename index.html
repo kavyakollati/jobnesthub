@@ -5,154 +5,294 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobNestHub - Find Your Dream Job</title>
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
-
-        body{
-            background:#f5f7fa;
-        }
-
-        nav{
-            background:#0d6efd;
-            color:white;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:18px 10%;
-        }
-
-        nav ul{
-            display:flex;
-            list-style:none;
-            gap:20px;
-        }
-
-        nav a{
-            color:white;
-            text-decoration:none;
-            font-weight:bold;
-        }
-
-        .hero{
-            text-align:center;
-            padding:90px 20px;
-            background:linear-gradient(135deg,#0d6efd,#20c997);
-            color:white;
-        }
-
-        .hero h1{
-            font-size:48px;
-        }
-
-        .hero p{
-            margin-top:15px;
-            font-size:20px;
-        }
-
-        .search{
-            margin-top:30px;
-        }
-
-        input{
-            padding:15px;
-            width:320px;
-            border:none;
-            border-radius:5px;
-        }
-
-        button{
-            padding:15px 25px;
-            border:none;
-            background:#ffc107;
-            cursor:pointer;
-            border-radius:5px;
-            font-weight:bold;
-        }
-
-        .jobs{
-            padding:60px 10%;
-        }
-
-        .card{
-            background:white;
-            padding:25px;
-            margin-bottom:20px;
-            border-radius:10px;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-        }
-
-        footer{
-            background:#222;
-            color:white;
-            text-align:center;
-            padding:20px;
-            margin-top:40px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
 <nav>
+    <h2>JobNestHub</h2>
 
-<h2>JobNestHub</h2>
+    <button id="themeBtn">🌙 Dark Mode</button>
 
-<ul>
-<li><a href="#">Home</a></li>
-<li><a href="#">Jobs</a></li>
-<li><a href="#">Remote</a></li>
-<li><a href="#">Government</a></li>
-<li><a href="#">Contact</a></li>
+    <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="jobs.html">Jobs</a></li>
+    <li><a href="companies.html">Companies</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Login</a></li>
 </ul>
-
 </nav>
 
 <section class="hero">
 
-<h1>Find Your Dream Job</h1>
+    <h1>Find Your Dream Job</h1>
 
-<p>Search thousands of jobs from top companies.</p>
+<p>Search thousands of verified jobs from India's top companies.</p>
 
-<div class="search">
-<input type="text" placeholder="Search Job...">
-<button>Search</button>
+<p id="todayDate"></p>
+    <div class="search">
+    <input type="text" id="jobSearch" placeholder="Job Title">
+    <input type="text" id="locationSearch" placeholder="Location">
+    <button id="searchBtn">Search Jobs</button>
+</div>
+
+<p id="searchResult"></p>
+
+</section>
+
+<section class="jobs">
+
+    <h2>Featured Jobs (<span id="jobCount"></span>)</h2>
+
+    <div class="jobs-grid">
+<div class="card job-card">
+    <h3>Software Engineer</h3>
+    <p>Google • Bengaluru • ₹15–25 LPA</p>
+    <button>Apply Now</button>
+</div>
+
+<div class="card job-card">
+    <h3>Frontend Developer</h3>
+    <p>Microsoft • Hyderabad • ₹10–18 LPA</p>
+    <button>Apply Now</button>
+</div>
+
+<div class="card job-card">
+    <h3>Data Analyst</h3>
+    <p>Amazon • Chennai • ₹8–15 LPA</p>
+    <button>Apply Now</button>
+</div>
+
+</div>
+
+</section>
+
+<!-- ===============================
+     User Registration Section
+================================ -->
+
+<section class="jobs">
+
+    <h2>Create Your JobNestHub Account</h2>
+
+    <div class="card application-card">
+
+        <form id="registerForm">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Enter your full name"
+                required
+            >
+
+            <br><br>
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Enter your email"
+                required
+            >
+
+            <br><br>
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Create a password"
+                required
+            >
+
+            <br><br>
+
+            <label>Account Type</label>
+
+            <select id="registerRole">
+
+                <option value="jobseeker">
+                    Job Seeker
+                </option>
+
+                <option value="recruiter">
+                    Recruiter
+                </option>
+
+            </select>
+
+            <br><br>
+
+            <button type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+        <p id="registerResult"></p>
+
+    </div>
+
+</section>
+
+
+
+<section class="jobs">
+
+<h2>Browse Job Categories</h2>
+
+<div class="jobs-grid">
+
+<div class="card">
+    <h3>💻 IT Jobs</h3>
+    <p>Software, Web Development, AI, Cloud Computing</p>
+</div>
+
+<div class="card">
+    <h3>🏦 Banking Jobs</h3>
+    <p>Finance, Accounts, Banking & Insurance</p>
+</div>
+
+<div class="card">
+    <h3>🏥 Healthcare Jobs</h3>
+    <p>Doctors, Nurses, Pharmacists & Healthcare Staff</p>
+</div>
+
+<div class="card">
+    <h3>🏛 Government Jobs</h3>
+    <p>Central Government, State Government & PSU Jobs</p>
+</div>
+
 </div>
 
 </section>
 
 <section class="jobs">
 
-<h2>Latest Jobs</h2>
+<h2>Top Hiring Companies</h2>
 
-<br>
+<div class="jobs-grid">
 
 <div class="card">
-<h3>Software Engineer</h3>
-<p>Google • Bengaluru • ₹15-25 LPA</p>
+<h3>Google</h3>
+<p>Hiring Software Engineers, Data Analysts & Product Managers</p>
+<button>View Jobs</button>
 </div>
 
 <div class="card">
-<h3>Frontend Developer</h3>
-<p>Microsoft • Hyderabad • ₹10-18 LPA</p>
+<h3>Microsoft</h3>
+<p>Hiring Frontend, Backend & Cloud Engineers</p>
+<button>View Jobs</button>
 </div>
 
 <div class="card">
-<h3>Data Analyst</h3>
-<p>Amazon • Chennai • ₹8-15 LPA</p>
+<h3>Amazon</h3>
+<p>Hiring Developers, Operations & Support Engineers</p>
+<button>View Jobs</button>
+</div>
+
+<div class="card">
+<h3>TCS</h3>
+<p>Hiring Freshers & Experienced Professionals</p>
+<button>View Jobs</button>
+</div>
+
+</div>
+
+</section>
+<section class="jobs">
+
+<h2>JobNestHub Statistics</h2>
+
+<div class="jobs-grid">
+
+<div class="card">
+    <h3>💼 50,000+</h3>
+    <p>Active Job Openings</p>
+</div>
+
+<div class="card">
+    <h3>🏢 5,000+</h3>
+    <p>Hiring Companies</p>
+</div>
+
+<div class="card">
+    <h3>👨‍💼 2 Million+</h3>
+    <p>Registered Job Seekers</p>
+</div>
+
+<div class="card">
+    <h3>🌍 150+</h3>
+    <p>Countries Served</p>
+</div>
+
 </div>
 
 </section>
 
+<section class="jobs">
+
+    <h2>Why Choose JobNestHub?</h2>
+
+    <div class="jobs-grid">
+
+    <div class="card">
+        <h3>🔍 Easy Job Search</h3>
+        <p>Search thousands of verified jobs with simple filters.</p>
+    </div>
+
+    <div class="card">
+        <h3>🏢 Trusted Companies</h3>
+        <p>Find opportunities from top employers across India.</p>
+    </div>
+
+    <div class="card">
+        <h3>📱 Mobile Friendly</h3>
+        <p>Access JobNestHub on desktop, tablet, or mobile.</p>
+    </div>
+
+   <div class="card">
+    <h3>🚀 Career Growth</h3>
+    <p>Explore jobs, internships, and career resources.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="jobs">
+
+    <h2>📧 Subscribe for Job Alerts</h2>
+
+    <div class="jobs-grid">
+
+   <div class="card subscribe-card">
+
+    <h3>Stay Updated</h3>
+
+    <p>Get the latest job openings directly to your email.</p>
+<div class="subscribe-box">
+    <input type="email" id="emailInput" placeholder="Enter your email">
+    <button id="subscribeBtn">Subscribe</button>
+</div>
+
+</div>
+
+</div>
+
+</section>
 <footer>
-
-<p>© 2026 JobNestHub | All Rights Reserved</p>
-
+    <p>© 2026 JobNestHub | All Rights Reserved</p>
 </footer>
+<button id="topBtn">⬆ Top</button>
+
+<script src="js/script.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Apply for Job - JobNestHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+
+    <nav>
+
+        <h2>JobNestHub</h2>
+
+        <a href="index.html">Home</a>
+
+        <a href="jobs.html">Jobs</a>
+
+    </nav>
+
+
+    <!-- Application Section -->
+
+    <section class="jobs">
+
+        <h1>Apply for Job</h1>
+
+        <div class="job-card">
+
+            <h2 id="jobTitle">Loading job...</h2>
+
+            <p id="jobCompany"></p>
+
+            <p id="jobLocation"></p>
+
+            <p id="jobSalary"></p>
+
+
+            <form id="applicationForm">
+
+                <label for="coverLetter">
+                    Cover Letter
+                </label>
+
+                <br><br>
+
+                <textarea
+                    id="coverLetter"
+                    rows="8"
+                    placeholder="Write your cover letter here..."
+                    required
+                ></textarea>
+
+                <br><br>
+
+                <button type="submit">
+                    Submit Application
+                </button>
+
+            </form>
+
+            <p id="message"></p>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        // ===============================
+        // Get Job ID from URL
+        // ===============================
+
+        const urlParams = new URLSearchParams(
+            window.location.search
+        );
+
+        const jobId = urlParams.get("job_id");
+
+
+        // ===============================
+        // Backend API URL
+        // ===============================
+
+        const API_URL =
+            "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev";
+
+
+        // ===============================
+        // Load Selected Job
+        // ===============================
+
+        async function loadJob() {
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/api/jobs`
+                );
+
+                const data = await response.json();
+
+                const job = data.jobs.find(
+                    job => job.id == jobId
+                );
+
+
+                if (!job) {
+
+                    document.getElementById("jobTitle").textContent =
+                        "Job not found";
+
+                    return;
+
+                }
+
+
+                document.getElementById("jobTitle").textContent =
+                    job.title;
+
+                document.getElementById("jobCompany").textContent =
+                    "Company: " + job.company;
+
+                document.getElementById("jobLocation").textContent =
+                    "Location: " + job.location;
+
+                document.getElementById("jobSalary").textContent =
+                    "Salary: " + (job.salary || "Not specified");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading job:",
+                    error
+                );
+
+                document.getElementById("jobTitle").textContent =
+                    "Unable to load job";
+
+            }
+
+        }
+
+
+        // ===============================
+        // Submit Application
+        // ===============================
+
+        document
+            .getElementById("applicationForm")
+            .addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    const coverLetter =
+                        document
+                            .getElementById("coverLetter")
+                            .value
+                            .trim();
+
+
+                    // Get logged-in user
+
+                    const user =
+                        JSON.parse(
+                            localStorage.getItem("user")
+                        );
+
+
+                    // Check login
+
+                    if (!user) {
+
+                        document.getElementById("message").textContent =
+                            "Please login before applying for a job.";
+
+                        return;
+
+                    }
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                `${API_URL}/api/applications`,
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json"
+
+                                    },
+
+                                    body: JSON.stringify({
+
+                                        job_id: jobId,
+
+                                        user_id: user.id,
+
+                                        cover_letter:
+                                            coverLetter
+
+                                    })
+
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                data.message ||
+                                "Application failed."
+                            );
+
+                        }
+
+
+                        document.getElementById("message").textContent =
+                            "Application submitted successfully!";
+
+
+                        document
+                            .getElementById("applicationForm")
+                            .reset();
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Application error:",
+                            error
+                        );
+
+                        document.getElementById("message").textContent =
+                            error.message;
+
+                    }
+
+                }
+            );
+
+
+        // ===============================
+        // Start
+        // ===============================
+
+        if (jobId) {
+
+            loadJob();
+
+        } else {
+
+            document.getElementById("jobTitle").textContent =
+                "No job selected.";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

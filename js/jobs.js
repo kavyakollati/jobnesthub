@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Backend API
     const API_URL =
-        "http://localhost:5001/api/jobs";
+         "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/jobs";
 
 
     // ===============================

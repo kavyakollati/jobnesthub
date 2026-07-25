@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Creating your account...";
 
                 const response = await fetch(
-                    "http://localhost:5001/api/register",
+                    "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/register",
                     {
                         method: "POST",
 
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Logging in...";
 
                 const response = await fetch(
-                    "http://localhost:5001/api/login",
+                   "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/login",
                     {
                         method: "POST",
 

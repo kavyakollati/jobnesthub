@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Employer Dashboard - JobNestHub
+</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+```
+
+</head>
+
+<body>
+
+<!-- ===============================
+     NAVIGATION
+================================ -->
+
+<nav>
+
+```
+<h2>
+    JobNestHub
+</h2>
+
+<button id="themeBtn">
+    🌙 Dark Mode
+</button>
+
+<ul>
+
+    <li>
+        <a href="index.html">
+            Home
+        </a>
+    </li>
+
+    <li>
+        <a href="jobs.html">
+            Jobs
+        </a>
+    </li>
+
+    <li>
+        <a href="companies.html">
+            Companies
+        </a>
+    </li>
+
+    <li>
+        <a href="about.html">
+            About
+        </a>
+    </li>
+
+    <li>
+        <a href="contact.html">
+            Contact
+        </a>
+    </li>
+
+    <li>
+        <a href="jobseeker-dashboard.html">
+            Job Seeker Dashboard
+        </a>
+    </li>
+
+    <li>
+        <a href="employer-dashboard.html">
+            Employer Dashboard
+        </a>
+    </li>
+
+    <li>
+        <a href="login.html">
+            Login
+        </a>
+    </li>
+
+</ul>
+```
+
+</nav>
+
+<!-- ===============================
+     DASHBOARD HEADER
+================================ -->
+
+<section class="hero">
+
+```
+<h1>
+    Employer Dashboard
+</h1>
+
+<p id="welcomeMessage">
+    Manage your job postings and find the best candidates.
+</p>
+```
+
+</section>
+
+<!-- ===============================
+     DASHBOARD STATISTICS
+================================ -->
+
+<section class="jobs">
+
+```
+<h2>
+    Dashboard Overview
+</h2>
+
+<div class="jobs-grid">
+
+    <div class="card">
+
+        <h3>
+            📢
+        </h3>
+
+        <h2 id="totalJobs">
+            0
+        </h2>
+
+        <p>
+            Total Jobs Posted
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            👥
+        </h3>
+
+        <h2 id="totalApplicants">
+            0
+        </h2>
+
+        <p>
+            Total Applicants
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🟢
+        </h3>
+
+        <h2 id="activeJobs">
+            0
+        </h2>
+
+        <p>
+            Active Jobs
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🏢
+        </h3>
+
+        <h2 id="companyName">
+            Employer
+        </h2>
+
+        <p>
+            Logged-in Employer
+        </p>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     POST NEW JOB
+================================ -->
+
+<section class="jobs">
+
+```
+<h2>
+    ➕ Post a New Job
+</h2>
+
+<div class="card application-card">
+
+    <form id="postJobForm">
+
+        <label for="jobTitle">
+            Job Title
+        </label>
+
+        <input
+            type="text"
+            id="jobTitle"
+            placeholder="Example: Frontend Developer"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="company">
+            Company Name
+        </label>
+
+        <input
+            type="text"
+            id="company"
+            placeholder="Example: JobNestHub Technologies"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="location">
+            Location
+        </label>
+
+        <input
+            type="text"
+            id="location"
+            placeholder="Example: Bengaluru, India"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="salary">
+            Salary
+        </label>
+
+        <input
+            type="text"
+            id="salary"
+            placeholder="Example: ₹6,00,000 - ₹10,00,000"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="category">
+            Job Category
+        </label>
+
+        <select
+            id="category"
+            required
+        >
+
+            <option value="">
+                Select Category
+            </option>
+
+            <option value="IT">
+                IT & Software
+            </option>
+
+            <option value="Finance">
+                Finance & Banking
+            </option>
+
+            <option value="Healthcare">
+                Healthcare
+            </option>
+
+            <option value="Marketing">
+                Marketing
+            </option>
+
+            <option value="Government">
+                Government
+            </option>
+
+            <option value="Other">
+                Other
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <label for="description">
+            Job Description
+        </label>
+
+        <textarea
+            id="description"
+            rows="6"
+            placeholder="Describe the job responsibilities and requirements..."
+            required
+        ></textarea>
+
+        <br><br>
+
+
+        <button
+            type="submit"
+            id="postJobBtn"
+        >
+            Post Job
+        </button>
+
+    </form>
+
+    <p id="jobResult"></p>
+
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     MANAGE JOBS
+================================ -->
+
+<section class="jobs">
+
+```
+<h2>
+    📋 Manage Your Jobs
+</h2>
+
+<div id="employerJobsContainer">
+
+    <div class="card">
+
+        <h3>
+            Loading your jobs...
+        </h3>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     APPLICANTS
+================================ -->
+
+<section class="jobs">
+
+```
+<h2>
+    👥 Applicants
+</h2>
+
+<div id="applicantsContainer">
+
+    <div class="card">
+
+        <h3>
+            Select "View Applicants" for a job.
+        </h3>
+
+        <p>
+            Applicants for the selected job will appear here.
+        </p>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     FOOTER
+================================ -->
+
+<footer>
+
+```
+<p>
+    © 2026 JobNestHub | All Rights Reserved
+</p>
+```
+
+</footer>
+
+<!-- ===============================
+     BACK TO TOP
+================================ -->
+
+<button id="topBtn">
+    ⬆ Top
+</button>
+
+<!-- ===============================
+     JAVASCRIPT
+================================ -->
+
+<script src="js/script.js"></script>
+
+<script>
+
+const API_URL =
+    "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev";
+
+
+// =================================
+// GET LOGGED-IN USER
+// =================================
+
+const storedUser =
+    localStorage.getItem("user");
+
+
+if (!storedUser) {
+
+    alert(
+        "Please login first."
+    );
+
+    window.location.href =
+        "login.html";
+
+} else {
+
+    initializeDashboard();
+
+}
+
+
+// =================================
+// INITIALIZE DASHBOARD
+// =================================
+
+function initializeDashboard() {
+
+    const currentUser =
+        JSON.parse(storedUser);
+
+
+    if (
+        !currentUser ||
+        !currentUser.id
+    ) {
+
+        alert(
+            "Invalid user information. Please login again."
+        );
+
+        localStorage.removeItem("user");
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    // Show employer name
+
+    if (
+        currentUser.name
+    ) {
+
+        document.getElementById(
+            "companyName"
+        ).textContent =
+            currentUser.name;
+
+
+        document.getElementById(
+            "welcomeMessage"
+        ).textContent =
+
+            "Welcome, " +
+
+            currentUser.name +
+
+            "! Manage your job postings and applicants.";
+
+    }
+
+
+    // =================================
+    // POST JOB
+    // =================================
+
+    const postJobForm =
+        document.getElementById(
+            "postJobForm"
+        );
+
+
+    postJobForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const jobTitle =
+                document
+                    .getElementById("jobTitle")
+                    .value
+                    .trim();
+
+
+            const company =
+                document
+                    .getElementById("company")
+                    .value
+                    .trim();
+
+
+            const location =
+                document
+                    .getElementById("location")
+                    .value
+                    .trim();
+
+
+            const salary =
+                document
+                    .getElementById("salary")
+                    .value
+                    .trim();
+
+
+            const category =
+                document
+                    .getElementById("category")
+                    .value;
+
+
+            const description =
+                document
+                    .getElementById("description")
+                    .value
+                    .trim();
+
+
+            const jobResult =
+                document.getElementById(
+                    "jobResult"
+                );
+
+
+            if (
+                !jobTitle ||
+                !company ||
+                !location ||
+                !salary ||
+                !category ||
+                !description
+            ) {
+
+                jobResult.textContent =
+                    "Please fill in all job details.";
+
+                return;
+
+            }
+
+
+            jobResult.textContent =
+                "Posting job...";
+
+
+            document.getElementById(
+                "postJobBtn"
+            ).disabled = true;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/api/jobs`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    title:
+                                        jobTitle,
+
+                                    company:
+                                        company,
+
+                                    location:
+                                        location,
+
+                                    description:
+                                        description,
+
+                                    salary:
+                                        salary,
+
+                                    job_type:
+                                        null,
+
+                                    category:
+                                        category,
+
+                                    posted_by:
+                                        currentUser.id
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+
+                        data.message ||
+
+                        "Failed to post job."
+
+                    );
+
+                }
+
+
+                jobResult.textContent =
+
+                    "Job posted successfully!";
+
+
+                postJobForm.reset();
+
+
+                loadJobs();
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+
+                    "Post Job Error:",
+
+                    error
+
+                );
+
+
+                jobResult.textContent =
+
+                    "Error: " +
+
+                    error.message;
+
+            }
+
+
+            finally {
+
+                document.getElementById(
+                    "postJobBtn"
+                ).disabled = false;
+
+            }
+
+        }
+    );
+
+
+    // Load employer jobs
+
+    loadJobs();
+
+
+    // =================================
+    // LOAD ONLY THIS EMPLOYER'S JOBS
+    // =================================
+
+    async function loadJobs() {
+
+        const container =
+            document.getElementById(
+                "employerJobsContainer"
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/jobs`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    data.message ||
+
+                    "Could not load jobs."
+
+                );
+
+            }
+
+
+            const allJobs =
+                data.jobs || [];
+
+
+            const jobs =
+                allJobs.filter(
+
+                    function(job) {
+
+                        return Number(
+                            job.posted_by
+                        ) === Number(
+                            currentUser.id
+                        );
+
+                    }
+
+                );
+
+
+            document.getElementById(
+                "totalJobs"
+            ).textContent =
+                jobs.length;
+
+
+            document.getElementById(
+                "activeJobs"
+            ).textContent =
+                jobs.length;
+
+
+            if (
+                jobs.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="card">
+
+                        <h3>
+                            No Jobs Found
+                        </h3>
+
+                        <p>
+                            You have not posted any jobs yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+
+                jobs.map(
+
+                    function(job) {
+
+                        return `
+
+                            <div class="card job-card">
+
+                                <h3>
+                                    ${escapeHTML(
+                                        job.title ||
+                                        "Untitled Job"
+                                    )}
+                                </h3>
+
+                                <p>
+
+                                    <strong>
+                                        Company:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        job.company ||
+                                        "Not specified"
+                                    )}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>
+                                        Location:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        job.location ||
+                                        "Not specified"
+                                    )}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>
+                                        Salary:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        job.salary ||
+                                        "Not specified"
+                                    )}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>
+                                        Category:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        job.category ||
+                                        "Not specified"
+                                    )}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>
+                                        Description:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        job.description ||
+                                        "Not specified"
+                                    )}
+
+                                </p>
+
+
+                                <div class="application-actions">
+
+                                    <button
+                                        type="button"
+                                        class="edit-job-btn"
+                                        data-job-id="${job.id}"
+                                    >
+                                        Edit Job
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="delete-job-btn"
+                                        data-job-id="${job.id}"
+                                    >
+                                        Delete Job
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="view-applicants-btn"
+                                        data-job-id="${job.id}"
+                                    >
+                                        View Applicants
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+
+                ).join("");
+
+
+            // =================================
+            // EDIT JOB BUTTONS
+            // =================================
+
+            document
+                .querySelectorAll(
+                    ".edit-job-btn"
+                )
+                .forEach(
+
+                    function(button) {
+
+                        button.addEventListener(
+
+                            "click",
+
+                            function() {
+
+                                const jobId =
+                                    button.dataset.jobId;
+
+
+                                window.location.href =
+                                    `/edit-job?id=${jobId}`;
+
+                            }
+
+                        );
+
+                    }
+
+                );
+
+
+            // =================================
+            // DELETE JOB BUTTONS
+            // =================================
+
+            document
+                .querySelectorAll(
+                    ".delete-job-btn"
+                )
+                .forEach(
+
+                    function(button) {
+
+                        button.addEventListener(
+
+                            "click",
+
+                            async function() {
+
+                                const jobId =
+                                    button.dataset.jobId;
+
+
+                                const confirmDelete =
+                                    confirm(
+
+                                        "Are you sure you want to delete this job? All applications for this job will also be deleted."
+
+                                    );
+
+
+                                if (
+                                    !confirmDelete
+                                ) {
+
+                                    return;
+
+                                }
+
+
+                                try {
+
+                                    const response =
+                                        await fetch(
+
+                                            `${API_URL}/api/jobs/${jobId}`,
+
+                                            {
+
+                                                method:
+                                                    "DELETE"
+
+                                            }
+
+                                        );
+
+
+                                    const data =
+                                        await response.json();
+
+
+                                    if (
+                                        !response.ok
+                                    ) {
+
+                                        throw new Error(
+
+                                            data.message ||
+
+                                            "Could not delete job."
+
+                                        );
+
+                                    }
+
+
+                                    alert(
+
+                                        data.message ||
+
+                                        "Job deleted successfully!"
+
+                                    );
+
+
+                                    document.getElementById(
+                                        "applicantsContainer"
+                                    ).innerHTML = `
+
+                                        <div class="card">
+
+                                            <h3>
+                                                Select "View Applicants" for a job.
+                                            </h3>
+
+                                        </div>
+
+                                    `;
+
+
+                                    document.getElementById(
+                                        "totalApplicants"
+                                    ).textContent =
+                                        "0";
+
+
+                                    loadJobs();
+
+                                }
+
+
+                                catch (error) {
+
+                                    console.error(
+
+                                        "Delete Job Error:",
+
+                                        error
+
+                                    );
+
+
+                                    alert(
+
+                                        "Error: " +
+
+                                        error.message
+
+                                    );
+
+                                }
+
+                            }
+
+                        );
+
+                    }
+
+                );
+
+
+            // =================================
+            // VIEW APPLICANTS BUTTONS
+            // =================================
+
+            document
+                .querySelectorAll(
+                    ".view-applicants-btn"
+                )
+                .forEach(
+
+                    function(button) {
+
+                        button.addEventListener(
+
+                            "click",
+
+                            function() {
+
+                                const jobId =
+                                    button.dataset.jobId;
+
+
+                                loadApplicants(
+                                    jobId
+                                );
+
+                            }
+
+                        );
+
+                    }
+
+                );
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+
+                "Load Jobs Error:",
+
+                error
+
+            );
+
+
+            container.innerHTML = `
+
+                <div class="card">
+
+                    <h3>
+                        Unable to Load Jobs
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            error.message
+                        )}
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    // =================================
+    // LOAD APPLICANTS
+    // =================================
+
+    async function loadApplicants(jobId) {
+
+        const container =
+            document.getElementById(
+                "applicantsContainer"
+            );
+
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <h3>
+                    Loading applicants...
+                </h3>
+
+            </div>
+
+        `;
+
+
+        try {
+
+            const response =
+                await fetch(
+
+                    `${API_URL}/api/applications/job/${jobId}`
+
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    data.message ||
+
+                    "Could not load applicants."
+
+                );
+
+            }
+
+
+            const applicants =
+                data.applicants || [];
+
+
+            document.getElementById(
+                "totalApplicants"
+            ).textContent =
+                applicants.length;
+
+
+            if (
+                applicants.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="card">
+
+                        <h3>
+                            No Applicants Yet
+                        </h3>
+
+                        <p>
+                            No one has applied for this job yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+
+                applicants.map(
+
+                    function(applicant) {
+
+                        return `
+
+                            <div class="card job-card">
+
+                                <h3>
+
+                                    👤
+
+                                    ${escapeHTML(
+
+                                        applicant.applicant_name ||
+
+                                        "Unknown Applicant"
+
+                                    )}
+
+                                </h3>
+
+
+                                <p>
+
+                                    <strong>
+                                        Email:
+                                    </strong>
+
+                                    ${escapeHTML(
+
+                                        applicant.applicant_email ||
+
+                                        "Not available"
+
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Cover Letter:
+                                    </strong>
+
+                                </p>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+
+                                        applicant.cover_letter ||
+
+                                        "No cover letter provided."
+
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Application Status:
+                                    </strong>
+
+                                    ${escapeHTML(
+
+                                        applicant.status ||
+
+                                        "Pending"
+
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Applied On:
+                                    </strong>
+
+                                    ${
+
+                                        applicant.applied_at
+
+                                        ?
+
+                                        new Date(
+
+                                            applicant.applied_at
+
+                                        ).toLocaleString()
+
+                                        :
+
+                                        "Not available"
+
+                                    }
+
+                                </p>
+
+
+                                <label>
+
+                                    Update Status:
+
+                                </label>
+
+
+                                <select
+
+                                    class="status-select"
+
+                                    data-application-id="${applicant.application_id}"
+
+                                >
+
+                                    <option
+                                        value="Pending"
+                                        ${
+                                            applicant.status === "Pending"
+                                            ?
+                                            "selected"
+                                            :
+                                            ""
+                                        }
+                                    >
+                                        Pending
+                                    </option>
+
+
+                                    <option
+                                        value="Shortlisted"
+                                        ${
+                                            applicant.status === "Shortlisted"
+                                            ?
+                                            "selected"
+                                            :
+                                            ""
+                                        }
+                                    >
+                                        Shortlisted
+                                    </option>
+
+
+                                    <option
+                                        value="Accepted"
+                                        ${
+                                            applicant.status === "Accepted"
+                                            ?
+                                            "selected"
+                                            :
+                                            ""
+                                        }
+                                    >
+                                        Accepted
+                                    </option>
+
+
+                                    <option
+                                        value="Rejected"
+                                        ${
+                                            applicant.status === "Rejected"
+                                            ?
+                                            "selected"
+                                            :
+                                            ""
+                                        }
+                                    >
+                                        Rejected
+                                    </option>
+
+                                </select>
+
+
+                                <br><br>
+
+
+                                <button
+
+                                    type="button"
+
+                                    class="update-status-btn"
+
+                                    data-application-id="${applicant.application_id}"
+
+                                >
+
+                                    Update Status
+
+                                </button>
+
+
+                                <p
+
+                                    class="status-result"
+
+                                    id="status-result-${applicant.application_id}"
+
+                                ></p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+                ).join("");
+
+
+            // =================================
+            // UPDATE APPLICATION STATUS
+            // =================================
+
+            document
+                .querySelectorAll(
+                    ".update-status-btn"
+                )
+                .forEach(
+
+                    function(button) {
+
+                        button.addEventListener(
+
+                            "click",
+
+                            async function() {
+
+                                const applicationId =
+
+                                    button.dataset.applicationId;
+
+
+                                const select =
+
+                                    document.querySelector(
+
+                                        `.status-select[data-application-id="${applicationId}"]`
+
+                                    );
+
+
+                                const status =
+                                    select.value;
+
+
+                                const resultElement =
+
+                                    document.getElementById(
+
+                                        `status-result-${applicationId}`
+
+                                    );
+
+
+                                resultElement.textContent =
+
+                                    "Updating status...";
+
+
+                                try {
+
+                                    const response =
+
+                                        await fetch(
+
+                                            `${API_URL}/api/applications/${applicationId}/status`,
+
+                                            {
+
+                                                method:
+                                                    "PUT",
+
+                                                headers: {
+
+                                                    "Content-Type":
+                                                        "application/json"
+
+                                                },
+
+                                                body:
+
+                                                    JSON.stringify({
+
+                                                        status:
+                                                            status
+
+                                                    })
+
+                                            }
+
+                                        );
+
+
+                                    const data =
+
+                                        await response.json();
+
+
+                                    if (
+                                        !response.ok
+                                    ) {
+
+                                        throw new Error(
+
+                                            data.message ||
+
+                                            "Could not update status."
+
+                                        );
+
+                                    }
+
+
+                                    resultElement.textContent =
+
+                                        "Status updated successfully!";
+
+                                }
+
+
+                                catch (error) {
+
+                                    console.error(
+
+                                        "Update Status Error:",
+
+                                        error
+
+                                    );
+
+
+                                    resultElement.textContent =
+
+                                        "Error: " +
+
+                                        error.message;
+
+                                }
+
+                            }
+
+                        );
+
+                    }
+
+                );
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+
+                "Load Applicants Error:",
+
+                error
+
+            );
+
+
+            container.innerHTML = `
+
+                <div class="card">
+
+                    <h3>
+                        Unable to Load Applicants
+                    </h3>
+
+                    <p>
+
+                        ${escapeHTML(
+
+                            error.message
+
+                        )}
+
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    // =================================
+    // ESCAPE HTML
+    // =================================
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.textContent =
+            value;
+
+
+        return div.innerHTML;
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
+

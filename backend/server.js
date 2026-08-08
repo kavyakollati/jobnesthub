@@ -4,10 +4,12 @@ const bcrypt = require("bcryptjs");
 const cors = require("cors");
 
 const app = express();
-
 app.use(cors({
-    origin: "*"
+    origin: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 app.use(express.json());
 
 const PORT = 5001;
@@ -336,6 +338,182 @@ app.post("/api/jobs", function (req, res) {
                 jobId: result.insertId
 
             });
+
+        }
+    );
+
+});
+// ===============================
+// Update Job API
+// ===============================
+
+app.put("/api/jobs/:id", function (req, res) {
+
+    const jobId = req.params.id;
+
+    const {
+        title,
+        company,
+        location,
+        description,
+        salary,
+        job_type,
+        category
+    } = req.body;
+
+    if (
+        !title ||
+        !company ||
+        !location ||
+        !description
+    ) {
+
+        return res.status(400).json({
+            message:
+                "Title, company, location, and description are required."
+        });
+
+    }
+
+    const sql = `
+        UPDATE jobs
+        SET
+            title = ?,
+            company = ?,
+            location = ?,
+            description = ?,
+            salary = ?,
+            job_type = ?,
+            category = ?
+        WHERE id = ?
+    `;
+
+    db.query(
+        sql,
+        [
+            title,
+            company,
+            location,
+            description,
+            salary || null,
+            job_type || null,
+            category || null,
+            jobId
+        ],
+        function (error, result) {
+
+            if (error) {
+
+                console.error(
+                    "Error updating job:",
+                    error
+                );
+
+                return res.status(500).json({
+                    message:
+                        "Could not update job."
+                });
+
+            }
+
+            if (result.affectedRows === 0) {
+
+                return res.status(404).json({
+                    message:
+                        "Job not found."
+                });
+
+            }
+
+            res.json({
+                message:
+                    "Job updated successfully!"
+            });
+
+        }
+    );
+
+});
+
+
+// ===============================
+// Delete Job API
+// ===============================
+
+app.delete("/api/jobs/:id", function (req, res) {
+
+    const jobId = req.params.id;
+
+    // First delete applications for this job
+    const deleteApplicationsSql = `
+        DELETE FROM applications
+        WHERE job_id = ?
+    `;
+
+    db.query(
+        deleteApplicationsSql,
+        [jobId],
+        function (applicationError) {
+
+            if (applicationError) {
+
+                console.error(
+                    "Error deleting applications:",
+                    applicationError
+                );
+
+                return res.status(500).json({
+                    message:
+                        "Could not delete job applications.",
+                    error:
+                        applicationError.message
+                });
+
+            }
+
+            // Then delete the job
+            const deleteJobSql = `
+                DELETE FROM jobs
+                WHERE id = ?
+            `;
+
+            db.query(
+                deleteJobSql,
+                [jobId],
+                function (jobError, result) {
+
+                    if (jobError) {
+
+                        console.error(
+                            "Error deleting job:",
+                            jobError
+                        );
+
+                        return res.status(500).json({
+                            message:
+                                "Could not delete job.",
+                            error:
+                                jobError.message
+                        });
+
+                    }
+
+                    if (result.affectedRows === 0) {
+
+                        return res.status(404).json({
+                            message:
+                                "Job not found."
+                        });
+
+                    }
+
+                    res.json({
+                        message:
+                            "Job and related applications deleted successfully!"
+                    });
+
+                }
+            );
 
         }
     );

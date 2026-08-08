@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Applicants - JobNestHub</title>
+
+<link rel="stylesheet"
+      href="css/style.css">
+```
+
+</head>
+
+<body>
+
+<!-- ===============================
+     Navigation
+=============================== -->
+
+<nav>
+
+```
+<h2>JobNestHub</h2>
+
+<ul>
+
+    <li>
+        <a href="index.html">
+            Home
+        </a>
+    </li>
+
+    <li>
+        <a href="jobs.html">
+            Jobs
+        </a>
+    </li>
+
+    <li>
+        <a href="applications.html">
+            My Applications
+        </a>
+    </li>
+
+    <li>
+        <a href="companies.html">
+            Companies
+        </a>
+    </li>
+
+    <li>
+        <a href="about.html">
+            About
+        </a>
+    </li>
+
+    <li>
+        <a href="contact.html">
+            Contact
+        </a>
+    </li>
+
+</ul>
+```
+
+</nav>
+
+<!-- ===============================
+     Applicants Section
+=============================== -->
+
+<section class="jobs">
+
+```
+<h1>
+    Job Applicants
+</h1>
+
+
+<p id="message">
+    Loading applicants...
+</p>
+
+
+<div
+    id="applicantsContainer"
+    class="jobs-grid">
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     Footer
+=============================== -->
+
+<footer>
+
+```
+<p>
+    © 2026 JobNestHub | All Rights Reserved
+</p>
+```
+
+</footer>
+
+<script>
+
+
+// ===============================
+// Backend API URL
+// ===============================
+
+const API_URL =
+    "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev";
+
+
+// ===============================
+// Get Job ID from URL
+// ===============================
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const jobId =
+    urlParams.get("job_id");
+
+
+console.log(
+    "DEBUG JOB ID:",
+    jobId
+);
+
+
+// ===============================
+// Get HTML Elements
+// ===============================
+
+const applicantsContainer =
+    document.getElementById(
+        "applicantsContainer"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+// ===============================
+// Check Job ID
+// ===============================
+
+if (
+    !jobId ||
+    jobId === "null" ||
+    jobId === "undefined"
+) {
+
+    message.textContent =
+        "No job selected. Please select a job to view applicants.";
+
+} else {
+
+    loadApplicants();
+
+}
+
+
+// ===============================
+// Load Applicants
+// ===============================
+
+async function loadApplicants() {
+
+    try {
+
+        message.textContent =
+            "Loading applicants...";
+
+
+        // ===============================
+        // Fetch Applicants
+        // ===============================
+
+        const response =
+            await fetch(
+                `${API_URL}/api/applications/job/${jobId}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "DEBUG APPLICANTS RESPONSE:",
+            data
+        );
+
+
+        // ===============================
+        // Check Response
+        // ===============================
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Could not load applicants."
+            );
+
+        }
+
+
+        // ===============================
+        // Get Applicants
+        // ===============================
+
+        const applicants =
+            data.applicants || [];
+
+
+        // ===============================
+        // No Applicants
+        // ===============================
+
+        if (
+            applicants.length === 0
+        ) {
+
+            message.textContent =
+                "No applicants have applied for this job yet.";
+
+            applicantsContainer.innerHTML = "";
+
+            return;
+
+        }
+
+
+        message.textContent =
+            "Applicants for this job:";
+
+
+        applicantsContainer.innerHTML = "";
+
+
+        // ===============================
+        // Create Applicant Cards
+        // ===============================
+
+        applicants.forEach(
+            function(applicant) {
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "card job-card";
+
+
+                const status =
+                    applicant.status ||
+                    "Pending";
+
+
+                // ===============================
+                // Applicant Card
+                // ===============================
+
+                card.innerHTML = `
+
+                    <h2>
+                        ${escapeHTML(
+                            applicant.applicant_name ||
+                            "Applicant"
+                        )}
+                    </h2>
+
+
+                    <p>
+                        <strong>
+                            Email:
+                        </strong>
+
+                        ${escapeHTML(
+                            applicant.applicant_email ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Application ID:
+                        </strong>
+
+                        ${escapeHTML(
+                            applicant.application_id
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Job ID:
+                        </strong>
+
+                        ${escapeHTML(
+                            applicant.job_id
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Status:
+                        </strong>
+
+                        <span class="application-status">
+                            ${escapeHTML(
+                                status
+                            )}
+                        </span>
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Applied On:
+                        </strong>
+
+                        ${
+                            applicant.applied_at
+                            ? new Date(
+                                applicant.applied_at
+                              ).toLocaleDateString()
+                            : "Not available"
+                        }
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Cover Letter:
+                        </strong>
+                    </p>
+
+
+                    <p>
+                        ${escapeHTML(
+                            applicant.cover_letter ||
+                            "No cover letter"
+                        )}
+                    </p>
+
+
+                    <!-- ===============================
+                         Status Buttons
+                    =============================== -->
+
+                    <div class="application-actions">
+
+                        <button
+                            class="status-btn shortlist-btn"
+                            data-application-id="${applicant.application_id}"
+                            data-status="Shortlisted">
+
+                            Shortlist
+
+                        </button>
+
+
+                        <button
+                            class="status-btn reject-btn"
+                            data-application-id="${applicant.application_id}"
+                            data-status="Rejected">
+
+                            Reject
+
+                        </button>
+
+
+                        <button
+                            class="status-btn hire-btn"
+                            data-application-id="${applicant.application_id}"
+                            data-status="Hired">
+
+                            Hire
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                // Add card to page
+
+                applicantsContainer.appendChild(
+                    card
+                );
+
+
+                // ===============================
+                // Get Status Buttons
+                // ===============================
+
+                const statusButtons =
+                    card.querySelectorAll(
+                        ".status-btn"
+                    );
+
+
+                // ===============================
+                // Add Button Events
+                // ===============================
+
+                statusButtons.forEach(
+                    function(button) {
+
+                        button.addEventListener(
+                            "click",
+                            function() {
+
+                                const applicationId =
+                                    button.getAttribute(
+                                        "data-application-id"
+                                    );
+
+
+                                const newStatus =
+                                    button.getAttribute(
+                                        "data-status"
+                                    );
+
+
+                                console.log(
+                                    "UPDATING APPLICATION:",
+                                    applicationId
+                                );
+
+
+                                console.log(
+                                    "NEW STATUS:",
+                                    newStatus
+                                );
+
+
+                                updateApplicationStatus(
+                                    applicationId,
+                                    newStatus
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Applicants error:",
+            error
+        );
+
+
+        message.textContent =
+            "Unable to load applicants. Please try again.";
+
+
+        applicantsContainer.innerHTML = "";
+
+    }
+
+}
+
+
+// ===============================
+// Update Application Status
+// ===============================
+
+async function updateApplicationStatus(
+    applicationId,
+    newStatus
+) {
+
+
+    try {
+
+
+        // ===============================
+        // Send Update Request
+        // ===============================
+
+        const response =
+            await fetch(
+                `${API_URL}/api/applications/${applicationId}/status`,
+                {
+
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        status:
+                            newStatus
+
+                    })
+
+                }
+            );
+
+
+        // ===============================
+        // Convert Response
+        // ===============================
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "STATUS UPDATE RESPONSE:",
+            data
+        );
+
+
+        // ===============================
+        // Check Response
+        // ===============================
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Could not update application status."
+            );
+
+        }
+
+
+        // ===============================
+        // Success Message
+        // ===============================
+
+        alert(
+            "Application status updated to " +
+            newStatus
+        );
+
+
+        // ===============================
+        // Reload Applicants
+        // ===============================
+
+        loadApplicants();
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Status update error:",
+            error
+        );
+
+
+        alert(
+            "Unable to update application status. " +
+            error.message
+        );
+
+    }
+
+}
+
+
+// ===============================
+// Escape HTML
+// ===============================
+
+function escapeHTML(value) {
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        String(value);
+
+
+    return div.innerHTML;
+
+}
+
+
+</script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Job Seeker Dashboard - JobNestHub
+</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+```
+
+</head>
+
+<body>
+
+<!-- ===============================
+     NAVIGATION
+================================ -->
+
+<nav>
+
+```
+<h2>
+    JobNestHub
+</h2>
+
+<button id="themeBtn">
+    🌙 Dark Mode
+</button>
+
+<ul>
+
+    <li>
+        <a href="jobseeker-dashboard.html">
+            Dashboard
+        </a>
+    </li>
+
+    <li>
+        <a href="jobs.html">
+            Find Jobs
+        </a>
+    </li>
+
+    <li>
+        <a href="companies.html">
+            Companies
+        </a>
+    </li>
+
+    <li>
+        <a href="about.html">
+            About
+        </a>
+    </li>
+
+    <li>
+        <a href="contact.html">
+            Contact
+        </a>
+    </li>
+
+    <li>
+        <a href="applications.html">
+            My Applications
+        </a>
+    </li>
+
+    <li>
+        <a href="login.html">
+            Login
+        </a>
+    </li>
+
+</ul>
+```
+
+</nav>
+
+<!-- ===============================
+     DASHBOARD HEADER
+================================ -->
+
+<section class="hero">
+
+```
+<h1>
+    Welcome to JobNestHub
+</h1>
+
+<p id="welcomeMessage">
+    Find your dream job and manage your applications.
+</p>
+```
+
+</section>
+
+<!-- ===============================
+     DASHBOARD OVERVIEW
+================================ -->
+
+<section class="jobs">
+
+```
+<h2>
+    Job Seeker Dashboard
+</h2>
+
+
+<div class="jobs-grid">
+
+    <!-- User Profile -->
+
+    <div class="card">
+
+        <h3>
+            👤
+        </h3>
+
+        <h2 id="userName">
+            Job Seeker
+        </h2>
+
+        <p>
+            Your Profile
+        </p>
+
+    </div>
+
+
+    <!-- Find Jobs -->
+
+    <div class="card">
+
+        <h3>
+            🔍
+        </h3>
+
+        <h2>
+            Find Jobs
+        </h2>
+
+        <p>
+            Browse the latest job opportunities.
+        </p>
+
+        <a href="jobs.html">
+            <button type="button">
+                Find Jobs
+            </button>
+        </a>
+
+    </div>
+
+
+    <!-- My Applications -->
+
+    <div class="card">
+
+        <h3>
+            📄
+        </h3>
+
+        <h2>
+            My Applications
+        </h2>
+
+        <p>
+            View jobs you have applied for.
+        </p>
+
+        <a href="applications.html">
+            <button type="button">
+                View Applications
+            </button>
+        </a>
+
+    </div>
+
+
+    <!-- Account -->
+
+    <div class="card">
+
+        <h3>
+            ⚙️
+        </h3>
+
+        <h2>
+            My Account
+        </h2>
+
+        <p>
+            Manage your JobNestHub account.
+        </p>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     QUICK ACTIONS
+================================ -->
+
+<section class="jobs">
+
+```
+<h2>
+    Quick Actions
+</h2>
+
+
+<div class="card">
+
+    <p>
+        Ready to find your next opportunity?
+    </p>
+
+    <a href="jobs.html">
+
+        <button type="button">
+            Browse Available Jobs
+        </button>
+
+    </a>
+
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     FOOTER
+================================ -->
+
+<footer>
+
+```
+<p>
+    © 2026 JobNestHub | All Rights Reserved
+</p>
+```
+
+</footer>
+
+<!-- ===============================
+     BACK TO TOP
+================================ -->
+
+<button id="topBtn">
+    ⬆ Top
+</button>
+
+<!-- ===============================
+     JAVASCRIPT
+================================ -->
+
+<script src="js/script.js"></script>
+
+<script>
+
+
+// =================================
+// GET LOGGED-IN USER
+// =================================
+
+const storedUser =
+    localStorage.getItem("user");
+
+
+// =================================
+// CHECK LOGIN
+// =================================
+
+if (!storedUser) {
+
+    alert(
+        "Please login first."
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// =================================
+// GET USER DATA
+// =================================
+
+const currentUser =
+    JSON.parse(storedUser);
+
+
+// =================================
+// DISPLAY USER NAME
+// =================================
+
+if (
+    currentUser &&
+    currentUser.name
+) {
+
+    document.getElementById(
+        "userName"
+    ).textContent =
+        currentUser.name;
+
+
+    document.getElementById(
+        "welcomeMessage"
+    ).textContent =
+
+        "Welcome, " +
+
+        currentUser.name +
+
+        "! Find your dream job and manage your applications.";
+
+}
+
+</script>
+
+</body>
+
+</html>

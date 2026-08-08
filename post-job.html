@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Post a Job - JobNestHub</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+<!-- ===============================
+     Navigation
+=============================== -->
+
+<nav>
+
+    <h2>JobNestHub</h2>
+
+    <ul>
+
+        <li>
+            <a href="index.html">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="jobs.html">
+                Jobs
+            </a>
+        </li>
+
+        <li>
+            <a href="employer-dashboard.html">
+                Employer Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="applications.html">
+                My Applications
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- ===============================
+     Post Job Section
+=============================== -->
+
+<section class="jobs">
+
+    <h1>
+        Post a New Job
+    </h1>
+
+    <p id="message">
+        Fill in the details below to post your job.
+    </p>
+
+
+    <div class="job-card">
+
+        <form id="postJobForm">
+
+
+            <!-- Job Title -->
+
+            <label for="title">
+                Job Title
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Example: Software Developer"
+                required
+            >
+
+            <br><br>
+
+
+            <!-- Company -->
+
+            <label for="company">
+                Company Name
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="company"
+                placeholder="Example: JobNestHub Technologies"
+                required
+            >
+
+            <br><br>
+
+
+            <!-- Location -->
+
+            <label for="location">
+                Location
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="location"
+                placeholder="Example: Bengaluru, India"
+                required
+            >
+
+            <br><br>
+
+
+            <!-- Description -->
+
+            <label for="description">
+                Job Description
+            </label>
+
+            <br>
+
+            <textarea
+                id="description"
+                rows="6"
+                placeholder="Describe the job role and requirements..."
+                required
+            ></textarea>
+
+            <br><br>
+
+
+            <!-- Salary -->
+
+            <label for="salary">
+                Salary
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="salary"
+                placeholder="Example: ₹6,00,000 - ₹10,00,000"
+            >
+
+            <br><br>
+
+
+            <!-- Job Type -->
+
+            <label for="job_type">
+                Job Type
+            </label>
+
+            <br>
+
+            <select id="job_type" required>
+
+                <option value="">
+                    Select Job Type
+                </option>
+
+                <option value="Full Time">
+                    Full Time
+                </option>
+
+                <option value="Part Time">
+                    Part Time
+                </option>
+
+                <option value="Internship">
+                    Internship
+                </option>
+
+                <option value="Contract">
+                    Contract
+                </option>
+
+            </select>
+
+            <br><br>
+
+
+            <!-- Category -->
+
+            <label for="category">
+                Category
+            </label>
+
+            <br>
+
+            <select id="category" required>
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Technology">
+                    Technology
+                </option>
+
+                <option value="Finance">
+                    Finance
+                </option>
+
+                <option value="Healthcare">
+                    Healthcare
+                </option>
+
+                <option value="Marketing">
+                    Marketing
+                </option>
+
+                <option value="Sales">
+                    Sales
+                </option>
+
+                <option value="Human Resources">
+                    Human Resources
+                </option>
+
+                <option value="Government">
+                    Government
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+            <br><br>
+
+
+            <!-- Submit -->
+
+            <button type="submit">
+                Post Job
+            </button>
+
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ===============================
+     Footer
+=============================== -->
+
+<footer>
+
+    <p>
+        © 2026 JobNestHub | All Rights Reserved
+    </p>
+
+</footer>
+
+
+<script>
+
+// ===============================
+// Backend API URL
+// ===============================
+
+const API_URL =
+    "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev";
+
+
+// ===============================
+// Get Form
+// ===============================
+
+const postJobForm =
+    document.getElementById(
+        "postJobForm"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+// ===============================
+// Submit Job
+// ===============================
+
+postJobForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        // ===============================
+        // Get Logged-in User
+        // ===============================
+
+        let user = null;
+
+
+        try {
+
+            user =
+                JSON.parse(
+                    localStorage.getItem("user")
+                );
+
+        } catch (error) {
+
+            console.error(
+                "User data error:",
+                error
+            );
+
+        }
+
+
+        console.log(
+            "DEBUG EMPLOYER USER:",
+            user
+        );
+
+
+        // ===============================
+        // Check Login
+        // ===============================
+
+        if (!user) {
+
+            message.textContent =
+                "Please login before posting a job.";
+
+            return;
+
+        }
+
+
+        // ===============================
+        // Get User ID
+        // ===============================
+
+        const userId =
+            Number(
+                user.id ||
+                user.user_id
+            );
+
+
+        console.log(
+            "DEBUG USER ID:",
+            userId
+        );
+
+
+        if (
+            !userId ||
+            isNaN(userId)
+        ) {
+
+            message.textContent =
+                "Unable to identify your account. Please login again.";
+
+            return;
+
+        }
+
+
+        // ===============================
+        // Get Form Values
+        // ===============================
+
+        const title =
+            document.getElementById(
+                "title"
+            ).value.trim();
+
+
+        const company =
+            document.getElementById(
+                "company"
+            ).value.trim();
+
+
+        const location =
+            document.getElementById(
+                "location"
+            ).value.trim();
+
+
+        const description =
+            document.getElementById(
+                "description"
+            ).value.trim();
+
+
+        const salary =
+            document.getElementById(
+                "salary"
+            ).value.trim();
+
+
+        const job_type =
+            document.getElementById(
+                "job_type"
+            ).value;
+
+
+        const category =
+            document.getElementById(
+                "category"
+            ).value;
+
+
+        // ===============================
+        // Send Job to Backend
+        // ===============================
+
+        try {
+
+            message.textContent =
+                "Posting your job...";
+
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/jobs`,
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body: JSON.stringify({
+
+                            title:
+                                title,
+
+                            company:
+                                company,
+
+                            location:
+                                location,
+
+                            description:
+                                description,
+
+                            salary:
+                                salary,
+
+                            job_type:
+                                job_type,
+
+                            category:
+                                category,
+
+                            posted_by:
+                                userId
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "DEBUG POST JOB RESPONSE:",
+                data
+            );
+
+
+            // ===============================
+            // Check Response
+            // ===============================
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not post job."
+                );
+
+            }
+
+
+            // ===============================
+            // Success
+            // ===============================
+
+            message.textContent =
+                "Job posted successfully!";
+
+
+            postJobForm.reset();
+
+
+            // ===============================
+            // Go to Employer Dashboard
+            // ===============================
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "employer-dashboard.html";
+
+                },
+                1500
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Post job error:",
+                error
+            );
+
+
+            message.textContent =
+                error.message ||
+                "Unable to post job. Please try again.";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

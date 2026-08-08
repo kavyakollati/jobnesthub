@@ -3,12 +3,10 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Login - JobNestHub</title>
 
 <link rel="stylesheet" href="css/style.css">
@@ -19,9 +17,7 @@
 <body>
 
 ```
-<!-- ===============================
-     Navigation
-================================ -->
+<!-- Navigation -->
 
 <nav>
 
@@ -40,9 +36,7 @@
 </nav>
 
 
-<!-- ===============================
-     Login Section
-================================ -->
+<!-- Login Section -->
 
 <section class="jobs">
 
@@ -51,8 +45,6 @@
     <div class="job-card">
 
         <form id="loginForm">
-
-            <!-- Email -->
 
             <label for="loginEmail">
                 Email Address
@@ -69,9 +61,6 @@
 
             <br><br>
 
-
-            <!-- Password -->
-
             <label for="loginPassword">
                 Password
             </label>
@@ -87,10 +76,10 @@
 
             <br><br>
 
-
-            <!-- Login Button -->
-
-            <button type="submit" id="loginButton">
+            <button
+                type="submit"
+                id="loginButton"
+            >
                 Login
             </button>
 
@@ -106,6 +95,7 @@
 
         <p>
             Don't have an account?
+
             <a href="register.html">
                 Register here
             </a>
@@ -116,9 +106,7 @@
 </section>
 
 
-<!-- ===============================
-     Login JavaScript
-================================ -->
+<!-- Login JavaScript -->
 
 <script>
 
@@ -140,9 +128,7 @@
         document.getElementById("loginButton");
 
 
-    // ===============================
     // Login Form Submit
-    // ===============================
 
     loginForm.addEventListener(
         "submit",
@@ -170,9 +156,7 @@
                 .value;
 
 
-            // ===============================
             // Check Required Fields
-            // ===============================
 
             if (!email || !password) {
 
@@ -184,9 +168,7 @@
             }
 
 
-            // ===============================
             // Show Login Status
-            // ===============================
 
             loginResult.textContent =
                 "Logging in...";
@@ -196,9 +178,7 @@
 
             try {
 
-                // ===============================
                 // Send Login Request
-                // ===============================
 
                 const response =
                     await fetch(
@@ -226,17 +206,13 @@
                     );
 
 
-                // ===============================
                 // Convert Response to JSON
-                // ===============================
 
                 const data =
                     await response.json();
 
 
-                // ===============================
                 // Login Successful
-                // ===============================
 
                 if (response.ok) {
 
@@ -244,6 +220,20 @@
                         "Login successful:",
                         data
                     );
+
+
+                    // Check User Information
+
+                    if (!data.user) {
+
+                        loginResult.textContent =
+                            "Login successful, but user information was not received.";
+
+                        loginButton.disabled = false;
+
+                        return;
+
+                    }
 
 
                     // Save User Information
@@ -260,21 +250,19 @@
                         "Login successful! Redirecting...";
 
 
-                    // Redirect to Jobs Page
+                   // Redirect to Job Seeker Dashboard
 
-                    setTimeout(function() {
+                   setTimeout(function() {
 
-                        window.location.href =
-                            "jobs.html";
+    window.location.href =
+       "jobseeker-dashboard.html";
 
-                    }, 1000);
+}, 1000);
 
 
                 } else {
 
-                    // ===============================
                     // Login Failed
-                    // ===============================
 
                     loginResult.textContent =
                         data.message ||
@@ -287,9 +275,7 @@
 
             } catch (error) {
 
-                // ===============================
                 // Server Connection Error
-                // ===============================
 
                 console.error(
                     "Login error:",
@@ -313,3 +299,4 @@
 </body>
 
 </html>
+

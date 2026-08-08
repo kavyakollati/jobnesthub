@@ -4,6 +4,10 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    // ===============================
+    // Get Jobs Container
+    // ===============================
+
     const jobsContainer =
         document.getElementById("jobsContainer");
 
@@ -11,9 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Backend API
+
+    // ===============================
+    // Backend API URL
+    // ===============================
+
     const API_URL =
-         "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/jobs";
+        "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/jobs";
 
 
     // ===============================
@@ -25,10 +33,12 @@ document.addEventListener("DOMContentLoaded", function () {
         jobsContainer.innerHTML =
             "<p>Loading jobs...</p>";
 
+
         try {
 
             const response =
                 await fetch(API_URL);
+
 
             if (!response.ok) {
 
@@ -38,16 +48,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
 
+
             const data =
                 await response.json();
 
-            console.log("Jobs API response:", data);
 
-            // Support different backend response formats
+            console.log(
+                "Jobs API response:",
+                data
+            );
+
+
             const jobs =
                 Array.isArray(data)
                     ? data
                     : data.jobs || [];
+
 
             if (jobs.length === 0) {
 
@@ -55,42 +71,64 @@ document.addEventListener("DOMContentLoaded", function () {
                     "<p>No jobs available right now.</p>";
 
                 return;
+
             }
 
+
             jobsContainer.innerHTML = "";
+
+
+            // ===============================
+            // Create Job Cards
+            // ===============================
 
             jobs.forEach(function (job) {
 
                 const card =
                     document.createElement("div");
 
+
                 card.className =
                     "card job-card";
 
+
                 card.innerHTML = `
-                    <h3>${escapeHTML(job.title || "Job Title")}</h3>
+
+                    <h3>
+                        ${escapeHTML(
+                            job.title || "Job Title"
+                        )}
+                    </h3>
 
                     <p>
                         <strong>Company:</strong>
-                        ${escapeHTML(job.company || "Company")}
+                        ${escapeHTML(
+                            job.company || "Company"
+                        )}
                     </p>
 
                     <p>
                         <strong>Location:</strong>
-                        ${escapeHTML(job.location || "Location")}
+                        ${escapeHTML(
+                            job.location || "Location"
+                        )}
                     </p>
 
                     <p>
                         <strong>Salary:</strong>
-                        ${escapeHTML(job.salary || "Not specified")}
+                        ${escapeHTML(
+                            job.salary || "Not specified"
+                        )}
                     </p>
 
                     <button
                         class="apply-btn"
-                        data-job-id="${job.id || job.job_id}">
+                        data-job-id="${job.id}">
                         Apply Now
                     </button>
+
                 `;
+
 
                 jobsContainer.appendChild(card);
 
@@ -102,7 +140,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // ===============================
 
             const applyButtons =
-                document.querySelectorAll(".apply-btn");
+                document.querySelectorAll(
+                    ".apply-btn"
+                );
+
 
             applyButtons.forEach(function (button) {
 
@@ -115,18 +156,48 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "data-job-id"
                             );
 
-                        if (!jobId) {
+
+                        console.log(
+                            "APPLY BUTTON CLICKED"
+                        );
+
+
+                        console.log(
+                            "JOB ID:",
+                            jobId
+                        );
+
+
+                        if (
+                            !jobId ||
+                            jobId === "undefined" ||
+                            jobId === "null"
+                        ) {
 
                             alert(
                                 "Job ID is missing."
                             );
 
                             return;
+
                         }
 
+
+                        const applyURL =
+                            "/apply?job_id=" +
+                           encodeURIComponent(
+                               jobId
+                           );
+
+
+                        console.log(
+                            "REDIRECTING TO:",
+                            applyURL
+                        );
+
+
                         window.location.href =
-                            "apply.html?id=" +
-                            encodeURIComponent(jobId);
+                            applyURL;
 
                     }
                 );
@@ -141,11 +212,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 error
             );
 
+
             jobsContainer.innerHTML = `
+
                 <p>
                     Unable to load jobs.
                     Please make sure the backend server is running.
                 </p>
+
             `;
 
         }
@@ -162,15 +236,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const div =
             document.createElement("div");
 
+
         div.textContent =
             String(value);
+
 
         return div.innerHTML;
 
     }
 
 
-    // Start loading jobs
+    // ===============================
+    // Start Loading Jobs
+    // ===============================
+
     loadJobs();
 
 });

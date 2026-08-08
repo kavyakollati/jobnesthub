@@ -1,3 +1,9 @@
 node_modules/
 backend/node_modules/
 .env
+
+# Temporary editor files
+*.swp
+*.save
+__pycache__/
+*.pyc

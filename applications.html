@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>My Applications - JobNestHub</title>
+
+<link rel="stylesheet"
+      href="css/style.css">
+```
+
+</head>
+
+<body>
+
+<!-- ===============================
+     Navigation
+=============================== -->
+
+<nav>
+
+```
+<h2>JobNestHub</h2>
+
+<ul>
+
+    <li>
+        <a href="index.html">
+            Home
+        </a>
+    </li>
+
+    <li>
+        <a href="jobs.html">
+            Jobs
+        </a>
+    </li>
+
+    <li>
+        <a href="applications.html">
+            My Applications
+        </a>
+    </li>
+
+    <li>
+        <a href="companies.html">
+            Companies
+        </a>
+    </li>
+
+    <li>
+        <a href="about.html">
+            About
+        </a>
+    </li>
+
+    <li>
+        <a href="contact.html">
+            Contact
+        </a>
+    </li>
+
+</ul>
+```
+
+</nav>
+
+<!-- ===============================
+     My Applications Section
+=============================== -->
+
+<section class="jobs">
+
+```
+<h1>
+    My Applications
+</h1>
+
+
+<p id="message">
+    Loading your applications...
+</p>
+
+
+<div
+    id="applicationsContainer"
+    class="jobs-grid">
+</div>
+```
+
+</section>
+
+<!-- ===============================
+     Footer
+=============================== -->
+
+<footer>
+
+```
+<p>
+    © 2026 JobNestHub | All Rights Reserved
+</p>
+```
+
+</footer>
+
+<script>
+
+
+// ===============================
+// Backend API URL
+// ===============================
+
+const API_URL =
+    "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev";
+
+
+// ===============================
+// Get HTML Elements
+// ===============================
+
+const applicationsContainer =
+    document.getElementById(
+        "applicationsContainer"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+// ===============================
+// Load User Applications
+// ===============================
+
+async function loadApplications() {
+
+
+    // ===============================
+    // Get Logged-in User
+    // ===============================
+
+    let user = null;
+
+
+    try {
+
+        user =
+            JSON.parse(
+                localStorage.getItem("user")
+            );
+
+    } catch (error) {
+
+        console.error(
+            "Error reading user:",
+            error
+        );
+
+    }
+
+
+    console.log(
+        "DEBUG LOGGED-IN USER:",
+        user
+    );
+
+
+    // ===============================
+    // Check Login
+    // ===============================
+
+    if (!user) {
+
+        message.textContent =
+            "Please login to view your applications.";
+
+        applicationsContainer.innerHTML = "";
+
+        return;
+
+    }
+
+
+    // ===============================
+    // Get User ID
+    // ===============================
+
+    const userId =
+        Number(
+            user.id ||
+            user.user_id
+        );
+
+
+    console.log(
+        "DEBUG USER ID:",
+        userId
+    );
+
+
+    // ===============================
+    // Check User ID
+    // ===============================
+
+    if (
+        !userId ||
+        isNaN(userId)
+    ) {
+
+        message.textContent =
+            "Unable to identify your account. Please login again.";
+
+        return;
+
+    }
+
+
+    try {
+
+
+        // ===============================
+        // Fetch Applications
+        // ===============================
+
+        const response =
+            await fetch(
+                `${API_URL}/api/applications/user/${userId}`
+            );
+
+
+        // Convert response to JSON
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "DEBUG APPLICATIONS RESPONSE:",
+            data
+        );
+
+
+        // ===============================
+        // Check API Response
+        // ===============================
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Could not load applications."
+            );
+
+        }
+
+
+        // ===============================
+        // Get Applications
+        // ===============================
+
+        const applications =
+            data.applications || [];
+
+
+        // ===============================
+        // No Applications
+        // ===============================
+
+        if (
+            applications.length === 0
+        ) {
+
+            message.textContent =
+                "You have not applied for any jobs yet.";
+
+            applicationsContainer.innerHTML = "";
+
+            return;
+
+        }
+
+
+        // ===============================
+        // Show Message
+        // ===============================
+
+        message.textContent =
+            "Your submitted applications:";
+
+
+        // Clear Container
+
+        applicationsContainer.innerHTML = "";
+
+
+        // ===============================
+        // Create Application Cards
+        // ===============================
+
+        applications.forEach(
+            function(application) {
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "card job-card";
+
+
+                // ===============================
+                // Application Status
+                // ===============================
+
+                const status =
+                    application.status ||
+                    "Pending";
+
+
+                // ===============================
+                // Application Card
+                // ===============================
+
+                card.innerHTML = `
+
+                    <h2>
+                        ${escapeHTML(
+                            application.job_title ||
+                            "Job"
+                        )}
+                    </h2>
+
+
+                    <p>
+                        <strong>
+                            Company:
+                        </strong>
+
+                        ${escapeHTML(
+                            application.company ||
+                            "Not specified"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Location:
+                        </strong>
+
+                        ${escapeHTML(
+                            application.location ||
+                            "Not specified"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Salary:
+                        </strong>
+
+                        ${escapeHTML(
+                            application.salary ||
+                            "Not specified"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Application Status:
+                        </strong>
+
+                        <span class="application-status">
+                            ${escapeHTML(
+                                status
+                            )}
+                        </span>
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Applied On:
+                        </strong>
+
+                        ${
+                            application.applied_at
+                            ? new Date(
+                                application.applied_at
+                              ).toLocaleDateString()
+                            : "Not available"
+                        }
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Cover Letter:
+                        </strong>
+                    </p>
+
+
+                    <p>
+                        ${escapeHTML(
+                            application.cover_letter ||
+                            "No cover letter"
+                        )}
+                    </p>
+
+                `;
+
+
+                // Add card to page
+
+                applicationsContainer.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+
+        // ===============================
+        // Handle Error
+        // ===============================
+
+        console.error(
+            "Applications error:",
+            error
+        );
+
+
+        message.textContent =
+            "Unable to load applications. Please try again.";
+
+
+        applicationsContainer.innerHTML = "";
+
+    }
+
+}
+
+
+// ===============================
+// Escape HTML
+// ===============================
+
+function escapeHTML(value) {
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        String(value);
+
+
+    return div.innerHTML;
+
+}
+
+
+// ===============================
+// Start
+// ===============================
+
+loadApplications();
+
+
+</script>
+
+</body>
+
+</html>

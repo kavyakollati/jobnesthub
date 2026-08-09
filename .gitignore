@@ -7,3 +7,4 @@ backend/node_modules/
 *.save
 __pycache__/
 *.pyc
+jobnesthub_backup.sql

@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ===============================
 
     const API_URL =
-        "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/jobs";
+        "https://jobnesthub-backend.onrender.com/api/jobs";
 
 
     // ===============================

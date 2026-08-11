@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Creating your account...";
 
                 const response = await fetch(
-                    "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/register",
+                    "https://jobnesthub-backend.onrender.com/api/register",
                     {
                         method: "POST",
 
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Logging in...";
 
                 const response = await fetch(
-                   "https://humble-space-goggles-7vp979v5gj57cp79g-5001.app.github.dev/api/login",
+                   "https://jobnesthub-backend.onrender.com/api/login",
                     {
                         method: "POST",
 

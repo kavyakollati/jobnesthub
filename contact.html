@@ -199,6 +199,38 @@
 
 <script src="js/script.js"></script>
 
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const subject = document.getElementById("contactSubject").value.trim();
+    const message = document.getElementById("contactMessage").value.trim();
+
+    if (!name || !email || !subject || !message) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const mailSubject = encodeURIComponent(subject);
+
+    const mailBody = encodeURIComponent(
+        "Name: " + name +
+        "\nEmail: " + email +
+        "\n\nMessage:\n" + message
+    );
+
+    window.location.href =
+        "mailto:jobnesthub9@gmail.com?subject=" +
+        mailSubject +
+        "&body=" +
+        mailBody;
+
+});
+</script>
+
 </body>
 
 </html>

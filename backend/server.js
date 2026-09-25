@@ -2,8 +2,9 @@ const express = require("express");
 const db = require("./db");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
-
+const jwt = require("jsonwebtoken");
 const app = express();
+const JWT_SECRET = process.env.JWT_SECRET;
 app.use(cors({
     origin: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -11,7 +12,37 @@ app.use(cors({
 }));
 
 app.use(express.json());
+function authenticateToken(req, res, next) {
 
+    const authHeader = req.headers["authorization"];
+
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+
+        return res.status(401).json({
+            message: "Authentication required."
+        });
+
+    }
+
+    jwt.verify(token, JWT_SECRET, function (error, user) {
+
+        if (error) {
+
+            return res.status(403).json({
+                message: "Invalid or expired token."
+            });
+
+        }
+
+        req.user = user;
+
+        next();
+
+    });
+
+}
 const PORT = process.env.PORT || 5001;
 
 // ===============================
@@ -185,19 +216,34 @@ app.post("/api/login", function (req, res) {
 
             }
 
-            // Login successful
-            res.status(200).json({
+            // Create JWT token
+const token = jwt.sign(
+    {
+        id: user.id,
+        email: user.email,
+        role: user.role
+    },
+    JWT_SECRET,
+    {
+        expiresIn: "7d"
+    }
+);
 
-                message: "Login successful!",
+// Login successful
+res.status(200).json({
 
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                }
+    message: "Login successful!",
 
-            });
+    token: token,
+
+    user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+    }
+
+});
 
         } catch (error) {
 
